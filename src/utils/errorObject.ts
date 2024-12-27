@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import { THttpError } from '../types/types';
 import responseMessage from '../constants/responseMessage';
+import logger from './logger';
 
 // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export default (error: Error | unknown, req: Request, errorStatusCode: number): THttpError => {
@@ -17,6 +18,6 @@ export default (error: Error | unknown, req: Request, errorStatusCode: number): 
     };
 
     // Log
-
+    logger.error('CONTROLLER_ERROR', { meta: { error } });
     return errorObject;
 };
