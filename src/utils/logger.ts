@@ -3,6 +3,8 @@ import { createLogger, transports, format } from 'winston';
 import { ConsoleTransportInstance } from 'winston/lib/winston/transports';
 import { red, blue, yellow, green, magenta } from 'colorette';
 import * as sourceMapSupport from 'source-map-support';
+import config from '../config/config';
+import { EApplicationEnvironment } from '../constants/application';
 
 // Linking the trace support
 sourceMapSupport.install();
@@ -37,12 +39,15 @@ const consoleLogFormat = format.printf((info) => {
 });
 
 const consoleTransport = (): Array<ConsoleTransportInstance> => {
-    return [
-        new transports.Console({
-            level: 'info',
-            format: format.combine(format.timestamp(), consoleLogFormat)
-        })
-    ];
+    if (config.NODE_ENV === EApplicationEnvironment.DEVELOPMENT) {
+        return [
+            new transports.Console({
+                level: 'info',
+                format: format.combine(format.timestamp(), consoleLogFormat)
+            })
+        ];
+    }
+    return [];
 };
 
 export default createLogger({
