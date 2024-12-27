@@ -2,6 +2,10 @@ import util from 'util';
 import { createLogger, transports, format } from 'winston';
 import { ConsoleTransportInstance } from 'winston/lib/winston/transports';
 import { red, blue, yellow, green, magenta } from 'colorette';
+import * as sourceMapSupport from 'source-map-support';
+
+// Linking the trace support
+sourceMapSupport.install();
 
 const colorizeLevel = (level: string) => {
     switch (level) {
